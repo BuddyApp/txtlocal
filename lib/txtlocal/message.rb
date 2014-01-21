@@ -60,7 +60,8 @@ module Txtlocal
     end
 
     def response=(response)
-      if not response.body.empty?
+      if ! ((response.body.respond_to?(:empty?) && response.body.empty?) ||
+            (response.body.respond_to?(:nil?) && response.body.nil?))
         @response = {}
         data = JSON.parse(response.body)
         data.each_pair do |k, v|

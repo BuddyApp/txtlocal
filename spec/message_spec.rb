@@ -160,27 +160,21 @@ describe Txtlocal::Message do
       end
     end
     context "api test mode" do
-      if not (File.readable?('api_login.rb') and load('api_login.rb') and
-              API_USERNAME and API_PASSWORD)
-        pending "\n" +
-          "Please create a file api_login.rb that defines API_USERNAME and API_PASSWORD " +
-          "to run tests against the real server"
-      else
-        before(:each) do
-          WebMock.allow_net_connect!
-          Txtlocal.config do |c|
-            c.from = "testing"
-            c.username = API_USERNAME
-            c.password = API_PASSWORD
-            c.test = true
-          end
+      before(:each) do
+        yaml = YAML.load_file(File.join(File.dirname(__FILE__), '..', 'api_login.yml'))
+        WebMock.allow_net_connect!
+        Txtlocal.config do |c|
+          c.from = "testing"
+          c.username = yaml["api_username"]
+          c.password = yaml["api_password"]
+          c.test = true
         end
-        it "should send data to the API endpoint" do
-          msg = Txtlocal::Message.new("a message", "447729467413")
-          msg.send!
-          msg.response.should_not be_nil
-          msg.response[:error].should include "testmode"
-        end
+      end
+      it "should send data to the API endpoint" do
+        msg = Txtlocal::Message.new("a message", "447729467413")
+        msg.send!
+        msg.response.should_not be_nil
+        msg.response[:error].should include "testmode"
       end
     end
   end
