@@ -1,5 +1,11 @@
 require 'txtlocal/config'
 require 'txtlocal/message'
+require 'txtlocal/report'
+require 'net/https'
+require 'uri'
+require 'json'
+require 'date'
+require 'chronic'
 
 module Txtlocal
   class << self

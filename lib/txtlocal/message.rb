@@ -1,7 +1,3 @@
-require 'net/https'
-require 'uri'
-require 'json'
-
 module Txtlocal
   class Message
 
