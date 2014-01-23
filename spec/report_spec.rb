@@ -52,9 +52,9 @@ describe Txtlocal::Report do
       end
     end
 
-    it "should combine records over a period of time when given multiple days" do
-      Txtlocal::Report.fetch_for_days(3, :sent)
-      Txtlocal::Report.fetch_for_days(3, :received, @yaml["received_inbox_id"])
+    it "should combine records over a period of time when given no days" do
+      Txtlocal::Report.fetch_for_days(0, :sent)
+      Txtlocal::Report.fetch_for_days(0, :received, @yaml["received_inbox_id"])
     end
 
     it "should fetch sent records when given a max time and min time" do

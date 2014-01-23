@@ -33,7 +33,12 @@ module Txtlocal
           break
         else
           end_result = current_result[-1]
-          til_timestamp = Chronic.parse(end_result["datetime"]).to_i
+          til_timestamp = if end_result["datetime"]
+                            Chronic.parse(end_result["datetime"]).to_i
+                          elsif end_result["date"]
+                            Chronic.parse(end_result["date"]).to_i
+                          end
+
           break if end_result == last_result
           last_result = end_result
           result += current_result
